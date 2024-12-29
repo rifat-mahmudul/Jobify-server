@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
 
-
+        const jobsCollection = client.db('Jobify').collection('jobs');
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
