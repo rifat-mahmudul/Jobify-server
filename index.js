@@ -39,7 +39,18 @@ async function run() {
                 res.send(result);
             } catch (error) {
                 console.log(`error from post user ${error}`);
-                res.status(500).send({message : 'error from post user ${error}'})
+                res.status(500).send({message : `error from post user ${error}`})
+            }
+        })
+
+        //get all user data from DB
+        app.get('/users', async(req, res) => {
+            try {
+                const result = await usersCollection.find().toArray();
+                res.send(result);
+            } catch (error) {
+                console.log(`error from get user ${error}`);
+                res.status(500).send({message : `error from get user ${error}`})
             }
         })
 
