@@ -29,7 +29,6 @@ async function run() {
 
         const jobsCollection = client.db('Jobify').collection('jobs');
         const usersCollection = client.db('Jobify').collection('users');
-        const requestCollection = client.db('Jobify').collection('requests');
 
         //post user data on DB
         app.post('/users', async(req, res) => {
@@ -138,11 +137,24 @@ async function run() {
             }
         })
 
-        //get single job data from buyer
+        //get single job data for buyer
         app.get('/job/:email', async(req, res) => {
             try {
                 const email = req.params.email;
                 const query = {'buyer_email' : email};
+                const result = await jobsCollection.findOne(query);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from get single job data from buyer : ${error}`);
+                res.status(500).send(`error from get single job data from buyer : ${error}`)
+            }
+        })
+
+        //get single job data for applicant
+        app.get('/job/:email', async(req, res) => {
+            try {
+                const email = req.params.email;
+                const query = {'user.email' : email};
                 const result = await jobsCollection.findOne(query);
                 res.send(result);
             } catch (error) {
