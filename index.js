@@ -12,7 +12,7 @@ const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.zee3o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -122,6 +122,19 @@ async function run() {
             } catch (error) {
                 console.log(`error from get all job : ${error}`);
                 res.status(500).send(`error from get all job : ${error}`)
+            }
+        })
+
+        //get single job data from DB
+        app.get('/job/:id', async(req, res) => {
+            try {
+                const id = req.params.id;
+                const query = {_id : new ObjectId(id)};
+                const result = await jobsCollection.findOne(query);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from get single job data : ${error}`);
+                res.status(500).send(`error from get single job data : ${error}`)
             }
         })
 
