@@ -54,6 +54,19 @@ async function run() {
             }
         })
 
+        //get single user by email
+        app.get('/user/:email', async(req, res) => {
+            try {
+                const email = req.params.email;
+                const query = {email : email};
+                const result = await usersCollection.findOne(query);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from get single user ${error}`);
+                res.status(500).send(`error from get single user ${error}`)
+            }
+        })
+
         //update user info from DB
         app.patch('/users/update/:email', async(req, res) => {
             try {
