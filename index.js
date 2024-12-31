@@ -54,6 +54,27 @@ async function run() {
             }
         })
 
+        //update user info from DB
+        app.patch('/users', async(req, res) => {
+            try {
+
+            const user = req.body;
+            const query = {email : email};
+            const updateDoc = {
+                $set : {
+                    ...user,
+                }
+            }
+
+            const result = await usersCollection.updateOne(query, updateDoc);
+            res.send(result);
+
+            } catch (error) {
+                console.log(`error from update user info ${error}`);
+                res.status(500).send(`error from update user info ${error}`)
+            }
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
