@@ -55,14 +55,15 @@ async function run() {
         })
 
         //update user info from DB
-        app.patch('/users', async(req, res) => {
+        app.patch('/users/update/:email', async(req, res) => {
             try {
-
+            const email = req.params.email;
             const user = req.body;
             const query = {email : email};
             const updateDoc = {
                 $set : {
                     ...user,
+                    Timestamp : Date.now()
                 }
             }
 
