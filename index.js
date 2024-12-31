@@ -138,6 +138,19 @@ async function run() {
             }
         })
 
+        //get single job data form buyer
+        app.get('/job/:email', async(req, res) => {
+            try {
+                const email = req.params.email;
+                const query = {'buyer_email' : email};
+                const result = await jobsCollection.findOne(query);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from get single job data form buyer : ${error}`);
+                res.status(500).send(`error from get single job data form buyer : ${error}`)
+            }
+        })
+
         //update job data in DB
         app.patch('/job/:id', async(req, res) => {
             try {
