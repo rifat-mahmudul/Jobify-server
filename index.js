@@ -114,6 +114,17 @@ async function run() {
             }
         })
 
+        //get all job from DB
+        app.get('/jobs', async(req, res) => {
+            try {
+                const result = await jobsCollection.find().toArray();
+                res.send(result);
+            } catch (error) {
+                console.log(`error from get all job : ${error}`);
+                res.status(500).send(`error from get all job : ${error}`)
+            }
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
