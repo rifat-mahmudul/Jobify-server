@@ -138,6 +138,26 @@ async function run() {
             }
         })
 
+        //update job data in DB
+        app.patch('/job/:id', async(req, res) => {
+            try {
+                const id = req.params.id;
+                const query = {_id : new ObjectId(id)};
+                const job = req.body;
+                const updateDoc = {
+                    $set : {
+                        ...job
+                    }
+                }
+                
+                const result = await jobsCollection.updateOne(query, updateDoc);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from update job data : ${error}`);
+                res.send(500).status(`error from update job data : ${error}`)
+            }
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
