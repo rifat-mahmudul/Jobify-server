@@ -138,7 +138,7 @@ async function run() {
             }
         })
 
-        //get single job data form buyer
+        //get single job data from buyer
         app.get('/job/:email', async(req, res) => {
             try {
                 const email = req.params.email;
@@ -146,8 +146,8 @@ async function run() {
                 const result = await jobsCollection.findOne(query);
                 res.send(result);
             } catch (error) {
-                console.log(`error from get single job data form buyer : ${error}`);
-                res.status(500).send(`error from get single job data form buyer : ${error}`)
+                console.log(`error from get single job data from buyer : ${error}`);
+                res.status(500).send(`error from get single job data from buyer : ${error}`)
             }
         })
 
@@ -168,6 +168,19 @@ async function run() {
             } catch (error) {
                 console.log(`error from update job data : ${error}`);
                 res.send(500).status(`error from update job data : ${error}`)
+            }
+        })
+
+        //delete job data from DB by buyer
+        app.delete('/job/:id', async(req, res) =>{
+            try {
+                const id = req.params.id;
+                const query = {_id : new ObjectId(id)};
+                const result = await jobsCollection.deleteOne(query);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from delete job data from DB by buyer : ${error}`);
+                res.status(500).send(`error from delete job data from DB by buyer : ${error}`)
             }
         })
 
