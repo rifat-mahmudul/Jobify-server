@@ -28,6 +28,20 @@ async function run() {
     try {
 
         const jobsCollection = client.db('Jobify').collection('jobs');
+        const usersCollection = client.db('Jobify').collection('users');
+        const requestCollection = client.db('Jobify').collection('requests');
+
+        //post user data on DB
+        app.post('/users', async(req, res) => {
+            try {
+                const user = req.body;
+                const result = await usersCollection.insertOne(user);
+                res.send(result);
+            } catch (error) {
+                console.log(`error from post user ${error}`);
+                res.status(500).send({message : 'error from post user ${error}'})
+            }
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
